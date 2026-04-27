@@ -174,8 +174,9 @@ forecast_df_EFI <- forecast_long %>%
 
 theme <- 'biological'
 date <- forecast_df_EFI$reference_datetime[1]
-forecast_file <- paste(theme, date, forecast_name, sep = '-')
 forecast_name <- paste0(forecast_df_EFI$model_id[1], ".csv")
+
+forecast_file <- paste(theme, date, forecast_name, sep = '-')
 forecast_file <- paste(theme, date, forecast_name, sep = '-')
 
 write_csv(forecast_df_EFI, forecast_file)
