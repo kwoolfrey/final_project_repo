@@ -31,8 +31,7 @@ weather_past_daily <- weather_past_daily %>%
          high_rad = case_when(
            surface_downwelling_shortwave_flux_in_air < 150 ~ 0,
            surface_downwelling_shortwave_flux_in_air >=150 ~ 1
-         ),
-         num_high_rad = roll_sum(high_rad, 7, align = "right", fill = NA))
+         ))
 # setting up dates 
 forecast_date <- Sys.Date() 
 noaa_date <- forecast_date - days(1)
