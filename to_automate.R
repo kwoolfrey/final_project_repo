@@ -150,9 +150,8 @@ for(i in 1:2) {
 
 # reformatting our outputs
 forecast_long <- forecast_df %>% group_by(site_id, datetime) %>%
-  summarize(mean = mean(prediction, na.rm=TRUE),
-            sd = sd(prediction))%>%
-  pivot_longer(cols = c("mean", "sd" ),
+  summarize(prob = mean(prediction, na.rm=TRUE))%>%
+  pivot_longer(cols = c("prob"),
                names_to = "parameter",
                values_to = "prediction")
 
