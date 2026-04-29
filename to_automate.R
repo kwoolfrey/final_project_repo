@@ -31,8 +31,7 @@ weather_past_daily <- weather_past_daily %>%
          high_rad = case_when(
            surface_downwelling_shortwave_flux_in_air < 150 ~ 0,
            surface_downwelling_shortwave_flux_in_air >=150 ~ 1
-         ),
-         num_high_rad = roll_sum(high_rad, 7, align = "right", fill = NA))
+         ))
 # setting up dates 
 forecast_date <- Sys.Date() 
 noaa_date <- forecast_date - days(1)
@@ -151,9 +150,8 @@ for(i in 1:2) {
 
 # reformatting our outputs
 forecast_long <- forecast_df %>% group_by(site_id, datetime) %>%
-  summarize(mean = mean(prediction, na.rm=TRUE),
-            sd = sd(prediction))%>%
-  pivot_longer(cols = c("mean", "sd" ),
+  summarize(prob = mean(prediction, na.rm=TRUE))%>%
+  pivot_longer(cols = c("prob"),
                names_to = "parameter",
                values_to = "prediction")
 
@@ -175,8 +173,9 @@ forecast_df_EFI <- forecast_long %>%
 
 theme <- 'biological'
 date <- forecast_df_EFI$reference_datetime[1]
-forecast_file <- paste(theme, date, forecast_name, sep = '-')
 forecast_name <- paste0(forecast_df_EFI$model_id[1], ".csv")
+
+forecast_file <- paste(theme, date, forecast_name, sep = '-')
 forecast_file <- paste(theme, date, forecast_name, sep = '-')
 
 write_csv(forecast_df_EFI, forecast_file)
